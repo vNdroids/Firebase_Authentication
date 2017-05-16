@@ -22,9 +22,9 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.GoogleAuthProvider;
 
-public class MainActivity extends AppCompatActivity {
+public class GoogleSigninActivity extends AppCompatActivity {
     private static final int RC_SIGN_IN = 101;
-    private static final String TAG = "MainActivity";
+    private static final String TAG = "GoogleSigninActivity";
     SignInButton btn_google_signin;
     FirebaseAuth mAuth=FirebaseAuth.getInstance();
     GoogleApiClient mGoogleApiClient;
@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_google_signin);
         btn_google_signin=(SignInButton)findViewById(R.id.btn_google_signin);
 
         // Configure Google Sign In
@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
                 .enableAutoManage(this, new GoogleApiClient.OnConnectionFailedListener() {
                     @Override
                     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-                        Toast.makeText(MainActivity.this, "You got an Error", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(GoogleSigninActivity.this, "You got an Error", Toast.LENGTH_SHORT).show();
 
                     }
                 })
@@ -94,13 +94,13 @@ public class MainActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithCredential:success");
-                            Toast.makeText(MainActivity.this, "Authentication success.",
+                            Toast.makeText(GoogleSigninActivity.this, "Authentication success.",
                                     Toast.LENGTH_SHORT).show();
-                         
+
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "signInWithCredential:failure", task.getException());
-                            Toast.makeText(MainActivity.this, "Authentication failed.",
+                            Toast.makeText(GoogleSigninActivity.this, "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();
                         }
 
