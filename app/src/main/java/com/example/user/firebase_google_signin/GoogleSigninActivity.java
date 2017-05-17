@@ -25,6 +25,7 @@ import com.google.firebase.auth.GoogleAuthProvider;
 
 public class GoogleSigninActivity extends AppCompatActivity {
     private static final int RC_SIGN_IN = 101;
+
     private static final String TAG = "GoogleSigninActivity";
     SignInButton btn_google_signin;
     FirebaseAuth mAuth=FirebaseAuth.getInstance();
