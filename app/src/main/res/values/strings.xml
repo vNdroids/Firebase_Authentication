@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Firebase_Google_Signin</string>
+    <string name="app_name">Firebase_Authentication</string>
     <string name="facebook_app_id">YOUR FACEBOOK APP ID HERE</string>
     <string name="fb_login_protocol_scheme">YOUR FACEBOOK APP ID HERE START WITH fb</string>
 </resources>
