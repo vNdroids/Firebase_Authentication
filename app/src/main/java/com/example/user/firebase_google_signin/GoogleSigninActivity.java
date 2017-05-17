@@ -1,5 +1,6 @@
 package com.example.user.firebase_google_signin;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -28,12 +29,14 @@ public class GoogleSigninActivity extends AppCompatActivity {
     SignInButton btn_google_signin;
     FirebaseAuth mAuth=FirebaseAuth.getInstance();
     GoogleApiClient mGoogleApiClient;
+    ProgressDialog mProgressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_google_signin);
         btn_google_signin=(SignInButton)findViewById(R.id.btn_google_signin);
+        mProgressDialog=new ProgressDialog(this);
 
         // Configure Google Sign In
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -71,6 +74,8 @@ public class GoogleSigninActivity extends AppCompatActivity {
         // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
         if (requestCode == RC_SIGN_IN) {
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
+            mProgressDialog.setMessage("Pleas wait...Signing In");
+            mProgressDialog.show();
             if (result.isSuccess()) {
                 // Google Sign In was successful, authenticate with Firebase
                 Log.d(TAG, "onActivityResult: on sucsess");
@@ -79,18 +84,20 @@ public class GoogleSigninActivity extends AppCompatActivity {
             } else {
                 // Google Sign In failed, update UI appropriately
                 Log.d(TAG, "onActivityResult: on failed");
-                // ...
+                mProgressDialog.dismiss();
             }
         }
     }
     private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
-        Log.d(TAG, "firebaseAuthWithGoogle:" + acct.getId());
+        Log.d(TAG, "firebaseAuthWithGoogle:id" + acct.getId());
+        Log.d(TAG, "firebaseAuthWithGoogle:token" + acct.getIdToken());
 
         AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
         mAuth.signInWithCredential(credential)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
+                        mProgressDialog.dismiss();
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithCredential:success");
